@@ -1,6 +1,9 @@
 postgres:
 	docker run --name postgres12 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d -p 5432:5432 postgres:12-alpine
 
+simplebank:
+	docker run --name simplebank -p 8080:8080 -e DB_SOURCE=postgresql://root:secret@postgres12:5432/simple_bank?sslmode=disable simplebank:latest
+
 createdb:
 	docker exec -it postgres12 createdb --username=root --owner=root simple_bank
 
@@ -28,4 +31,4 @@ test:
 server: 
 	go run main.go
 
-.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test
+.PHONY: postgres simplebank createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test
