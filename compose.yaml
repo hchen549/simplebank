@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+  db:
+    image: postgres:12.6-alpine
+    restart: always
+    container_name: postgres12_6
+    user: postgres
+    environment:
+      - "POSTGRES_PASSWORD=password"
+      - "POSTGRES_DB=simple_bank"
+    ports:
+      - "5432:5432"
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_SOURCE=postgresql://postgres:password@db:5432/simple_bank?sslmode=disable
+    depends_on:
+      - db
+    links:
+      - db
+  
