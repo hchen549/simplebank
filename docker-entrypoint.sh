@@ -7,7 +7,7 @@ echo "wait for postgres"
 echo "postgres is up"
 
 echo "run db migration"
-/app/migrate -path /app/migration -database postgres://postgres:password@db:5432/simple_bank?sslmode=disable -verbose up
+/app/migrate -path /app/migration -database $DB_SOURCE -verbose up
 echo "db migration done"
 
 exec "$@"
