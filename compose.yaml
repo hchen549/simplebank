@@ -20,6 +20,6 @@ services:
       - DB_SOURCE=postgresql://postgres:password@db:5432/simple_bank?sslmode=disable
     depends_on:
       - db
-    links:
-      - db
+    entrypoint: [ "/app/wait-for-it.sh", "db:5432", "--", "/app/docker-entrypoint.sh" ]
+    command: [ "/app/main" ]
   
